@@ -10,6 +10,7 @@ import net.minecraft.client.MinecraftClient;
 @Module(name = "VanillaFly", key = 0, cat = CATEGORY.MOVEMENT)
 public class VanillaFly extends AbstractModule
 {
+    int timer = 0;
     public VanillaFly()
     {
         super();
@@ -22,7 +23,13 @@ public class VanillaFly extends AbstractModule
         assert MinecraftClient.getInstance().player != null;
         if(isEnabled)
         {
+            timer++;
             MinecraftClient.getInstance().player.getAbilities().flying = true;
+            if(timer > 20) {
+              timer = 0;
+              MinecraftClient.getInstance().player.setVelocity(0, -0.04, 0)
+            }
+           }
         }
     }
 
@@ -32,5 +39,6 @@ public class VanillaFly extends AbstractModule
     public void onDisable() {
         assert MinecraftClient.getInstance().player != null;
         MinecraftClient.getInstance().player.getAbilities().flying = true;
+        timer = 0;
     }
 }
